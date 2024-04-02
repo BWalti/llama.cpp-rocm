@@ -9,9 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-  env:
-    IMAGE_NAME: llama.cpp
-    REGISTRY: ghcr.io/bwalti
+    env:
+      IMAGE_NAME: llama.cpp
+      REGISTRY: ghcr.io/bwalti
 
     steps:
     - name: Free Disk Space
