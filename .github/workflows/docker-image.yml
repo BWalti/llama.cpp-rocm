@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+  env:
+    IMAGE_NAME: llama.cpp
+    REGISTRY: ghcr.io/bwalti
 
     steps:
     - name: Free Disk Space
@@ -34,5 +37,27 @@ jobs:
           rocm/dev-ubuntu-22.04:6.0-complete
 
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag bibolorean/llama.cpp:rocm-$(date +%s)
+
+    - name: Buildah Action
+      id: build-image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: ${{ env.IMAGE_NAME }}
+        tags: rocm-latest ${{ github.sha }}
+        containerfiles: |
+          ./Dockerfile
+
+    - name: Log in to the Container registry
+      uses: redhat-actions/podman-login@v1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push to GitHub Container Repository
+      id: push-to-ghcr
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: ${{ env.REGISTRY }}
