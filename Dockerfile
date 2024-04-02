@@ -4,7 +4,8 @@ FROM rocm/dev-ubuntu-22.04:${ROCM_VERSION}-complete AS build
 
 WORKDIR /app
 
-RUN apt install git -y && \
+RUN apt update && \
+    apt install git -y && \
     rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/ggerganov/llama.cpp.git .
