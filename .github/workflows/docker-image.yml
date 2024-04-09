@@ -29,12 +29,12 @@ jobs:
         docker-images: false
         swap-storage: true
 
-    - name: Cache ROCm images
-      id: cache-container-images
-      uses: jamesmortensen/cache-container-images-action@v1
-      with:
-        images: |
-          rocm/dev-ubuntu-22.04:6.0-complete
+    # - name: Cache ROCm images
+    #   id: cache-container-images
+    #   uses: jamesmortensen/cache-container-images-action@v1
+    #   with:
+    #     images: |
+    #       rocm/dev-ubuntu-22.04:6.0-complete
 
     - uses: actions/checkout@v3
 
