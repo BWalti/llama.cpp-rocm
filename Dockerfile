@@ -8,10 +8,6 @@ RUN apt update && \
     apt install git -y && \
     rm -rf /var/lib/apt/lists/*
 
-# Might not be required at all:
-#RUN git clone https://github.com/ggerganov/llama.cpp.git .
-#RUN make LLAMA_HIPBLAS=1
-
 RUN CMAKE_ARGS="-D LLAMA_HIPBLAS=ON -D CMAKE_C_COMPILER=/opt/rocm/bin/amdclang -D CMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++ -D CMAKE_PREFIX_PATH=/opt/rocm -D AMDGPU_TARGETS=gfx1100" \
     FORCE_CMAKE=1 pip install llama-cpp-python --upgrade --force-reinstall --no-cache-dir
 
