@@ -1,4 +1,4 @@
-ARG ROCM_VERSION=6.0
+ARG ROCM_VERSION=6.1
 
 FROM rocm/dev-ubuntu-22.04:${ROCM_VERSION}-complete AS build
 
